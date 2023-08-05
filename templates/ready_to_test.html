@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block title %}
+Ready To Test
+{% endblock title %}
+
+{% block content %}
+    <div class="content mt-5">
+        <h3>Are you Testing | Test title: {{test.title}}</h3>
+        <p>
+            Details: There are <strong>{{test.question_set.all.count}}</strong> questions.
+        </p>
+
+        <p>Make sure this whole test time is inside of <strong>{{test.start_date}}</strong> and <strong>{{test.end_date}}</strong></p>
+        <p>Author: <a href="{% url 'profile' test.author.id %}">@{{test.author.username}}</a></p>
+        <a class="btn btn-primary" href="{% url 'test' test.id %}">Start Test</a>
+        <a class="btn btn-secondary" href="{% url 'index' %}">Back</a>
+    </div>
+{% endblock content %}

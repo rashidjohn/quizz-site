@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block title %}
+    Profile - {{user}}
+{% endblock title %}
+
+{% block content %}
+    <div class="content mt-5">
+        <h3>Profile - {{user}}</h3>
+        <div class="row">
+            <div class="card p-2 col-5 m-4">
+                <h6>Created Tests</h6>
+                {% for i in user.test_set.all %}
+                <p>{{i.title}}</p>
+                <small class="d-inline">
+                    {{i.checktest_set.all.count}} attemmps | 
+                    {{i.question_set.all.count}} questions | 
+                    <a href="{% url 'ready_to_test' i.id %}">try</a> | 
+                    {% if user == request.user %}
+                    <a href="{% url 'new_question' i.id %}">add question</a>
+                    {% endif %}
+                </small>
+                <hr>
+                {% endfor %}
+            </div>
+            <div class="col-5 m-4 p-2 card">
+                <h6>Atttended Tests</h6>
+                {% for i in user.checktest_set.all %}
+                    <p>{{i.test.title}}</p>
+                    <small class="d-inline">
+                        <a href="{% url 'checktest' i.id %}">details</a> | {{i.percentage}} % | 
+                        <a href="{% url 'ready_to_test' i.test.id %}">try again</a>
+                    </small>
+                    <hr>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock content %}
