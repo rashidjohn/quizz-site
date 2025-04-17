@@ -1,48 +1,56 @@
-{% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="uz">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Test-App | {% block title %}{% endblock title %}</title>
+    <title>Test Ilovasi | {% block title %}{% endblock title %}</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    {% load static %}
 </head>
 <body>
-    <nav class="shadow navbar navbar-expend-lg bg-light">
+    <nav class="shadow navbar navbar-expand-lg bg-light">
         <div class="container">
-            <a href="/" class="navbar-brand">Test App</a>
-            <button class='navbar-toggler' type="button" data-bs-toggle='collapse' data-bs-target="#navbarContent">
-            <span class="navbar-toggler-icon"></span></button>
-            <div class="collapse navbar-collapse" id='navbarContent'>
+            <a href="{% url 'index' %}" class="navbar-brand">Test Ilovasi</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a href="{% url 'new_test' %}" class="nav-link">Add Test</a>
+                        <a href="{% url 'new_test' %}" class="nav-link">Test Qo‘shish</a>
                     </li>
                     {% if request.user.is_authenticated %}
                         <li class="nav-item">
-                            <a href="{% url 'profile' request.user.id %}" class="nav-link">My Profile</a>
+                            <a href="{% url 'profile' %}" class="nav-link">Mening Profilim</a>
                         </li>
                     {% endif %}
                 </ul>
                 <div class="btn-group">
-                    {% if request.uesr.is_authenticated %}
-                    <a href="{% url 'logout' %}" class="nav-link">Logout</a>
+                    {% if request.user.is_authenticated %}
+                        <a href="{% url 'logout' %}" class="btn btn-outline-primary">Chiqish</a>
                     {% else %}
-                    <a href="{% url 'login' %}" class="btn btn-primary">Login</a>
-                    <a href="{% url 'login' %}" class="btn btn-primary">Signup</a>
+                        <a href="{% url 'login' %}" class="btn btn-primary">Kirish</a>
+                        <a href="{% url 'signup' %}" class="btn btn-primary">Ro‘yxatdan o‘tish</a>
                     {% endif %}
                 </div>
             </div>
         </div>
     </nav>
-    <div class="container">
+    <div class="container mt-3">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
         {% block content %}
-
         {% endblock content %}
     </div>
-    <div class="footer m-5 mb-3">
-        <center class="text-muted">Doniyorov Codes | 2023</center>
-    </div>
+    <footer class="mt-5 mb-3 text-center text-muted">
+        Doniyorov Rashid | 2025
+    </footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
 </body>
 </html>

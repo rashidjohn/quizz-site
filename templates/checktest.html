@@ -1,42 +1,30 @@
 {% extends 'base.html' %}
-{% block title %}
-    Check Answers
-{% endblock title %}
+{% block title %}Test Ilovasi | Javoblarni Tekshirish{% endblock title %}
 
 {% block content %}
-    <div class="content mt-5">
-        <center>
+    <div class="container mt-5">
+        <div class="text-center">
             {% if checktest.user_passed %}
-            <h1>You have successfully passed the Test</h1>
+                <h1 class="text-success">Siz testdan muvaffaqiyatli o‘tdingiz!</h1>
             {% else %}
-            <h1>You Failed! You have to solve {{checktest.test.pass_percentage}}% of test al least</h1>
+                <h1 class="text-danger">Siz testdan o‘ta olmadingiz! O‘tish uchun kamida {{ checktest.test.pass_percentage }}% kerak.</h1>
             {% endif %}
-            <h2 class="mb-4">You finded {{checktest.percentage}}% of all questions</h2>
-        </center>
-
-        <div class="card p-3">
+            <h2 class="mb-4">Siz barcha savollarning {{ checktest.percentage }}% topdingiz</h2>
+        </div>
+        <div class="card p-4">
             {% for q in checktest.checkquestion_set.all %}
-                <h5>{{forloop.counter}}. {{q.question}} </h5>
-                {% if q.is_true %}
-                <div class="answers p-2">
-                    <p>Note: {{q.given_answer}} was marked</p>
-                    <p>A. {{q.question.a}}</p>
-                    <p>B. {{q.question.b}}</p>
-                    <p>C. {{q.question.c}}</p>
-                    <p>D. {{q.question.d}}</p>
+                <div class="mb-3">
+                    <h5>{{ forloop.counter }}. {{ q.question.question }}</h5>
+                    <div class="p-2 {% if not q.is_true %}bg-danger bg-opacity-10{% endif %}">
+                        <p class="text-muted">Sizning javobingiz: {{ q.given_answer|upper }} {% if q.is_true %}(To‘g‘ri){% else %}(Noto‘g‘ri){% endif %}</p>
+                        <p>A. {{ q.question.a }}</p>
+                        <p>B. {{ q.question.b }}</p>
+                        <p>C. {{ q.question.c }}</p>
+                        <p>D. {{ q.question.d }}</p>
+                    </div>
                 </div>
-                {% else %}
-                <div class="answers p-2" style="background-color: rgba(255,129,129,0.39);">
-                    <p>Note: {{q.given_answer}} was marked</p>
-                    <p>A. {{q.question.a}}</p>
-                    <p>B. {{q.question.b}}</p>
-                    <p>C. {{q.question.c}}</p>
-                    <p>D. {{q.question.d}}</p>
-                </div>
-                {% endif %}
             {% endfor %}
-            <a href="{% url 'index' %}" class="btn btn-secondary mt-2">Back Home</a>
+            <a href="{% url 'index' %}" class="btn btn-secondary mt-2">Bosh Sahifaga Qaytish</a>
         </div>
     </div>
-
 {% endblock content %}

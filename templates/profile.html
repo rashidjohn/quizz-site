@@ -1,37 +1,50 @@
 {% extends 'base.html' %}
-{% block title %}
-    Profile - {{user}}
-{% endblock title %}
+{% block title %}Test Ilovasi | Profil{% endblock title %}
 
 {% block content %}
-    <div class="content mt-5">
-        <h3>Profile - {{user}}</h3>
+    <div class="container mt-5">
+        <h3>Profil - {{ user.username }}</h3>
         <div class="row">
-            <div class="card p-2 col-5 m-4">
-                <h6>Created Tests</h6>
-                {% for i in user.test_set.all %}
-                <p>{{i.title}}</p>
-                <small class="d-inline">
-                    {{i.checktest_set.all.count}} attemmps | 
-                    {{i.question_set.all.count}} questions | 
-                    <a href="{% url 'ready_to_test' i.id %}">try</a> | 
-                    {% if user == request.user %}
-                    <a href="{% url 'new_question' i.id %}">add question</a>
+            <div class="col-md-6 mb-3">
+                <div class="card p-3">
+                    <h5>Yaratilgan Testlar</h5>
+                    {% if user.test_set.all %}
+                        {% for test in user.test_set.all %}
+                            <div class="mb-2">
+                                <p>{{ test.title }}</p>
+                                <p class="text-muted">
+                                    {{ test.checktest_set.count }} urinish |
+                                    {{ test.question_set.count }} savol |
+                                    <a href="{% url 'ready_to_test' test.id %}">Sinab Ko‘rish</a> |
+                                    <a href="{% url 'new_question' test.id %}">Savol Qo‘shish</a>
+                                </p>
+                                <hr>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <p class="text-muted">Hozircha yaratilgan testlar yo‘q.</p>
                     {% endif %}
-                </small>
-                <hr>
-                {% endfor %}
+                </div>
             </div>
-            <div class="col-5 m-4 p-2 card">
-                <h6>Atttended Tests</h6>
-                {% for i in user.checktest_set.all %}
-                    <p>{{i.test.title}}</p>
-                    <small class="d-inline">
-                        <a href="{% url 'checktest' i.id %}">details</a> | {{i.percentage}} % | 
-                        <a href="{% url 'ready_to_test' i.test.id %}">try again</a>
-                    </small>
-                    <hr>
-                {% endfor %}
+            <div class="col-md-6 mb-3">
+                <div class="card p-3">
+                    <h5>Ishtirok etilgan Testlar</h5>
+                    {% if user.checktest_set.all %}
+                        {% for checktest in user.checktest_set.all %}
+                            <div class="mb-2">
+                                <p>{{ checktest.test.title }}</p>
+                                <p class="text-muted">
+                                    <a href="{% url 'checktest' checktest.id %}">Tafsilotlar</a> |
+                                    {{ checktest.percentage }}% |
+                                    <a href="{% url 'ready_to_test' checktest.test.id %}">Qayta Sinab Ko‘rish</a>
+                                </p>
+                                <hr>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <p class="text-muted">Hozircha ishtirok etilgan testlar yo‘q.</p>
+                    {% endif %}
+                </div>
             </div>
         </div>
     </div>

@@ -1,16 +1,25 @@
 {% extends 'base.html' %}
-{% load static %}
-{% block title %}
-    Home - Page
-{% endblock title %}
+{% block title %}Test Ilovasi | Bosh Sahifa{% endblock title %}
 
 {% block content %}
-    <div class="content mt-3">
-        <h3>Latest Tests for You</h3>
-        <ol>
-            {% for test in tests %}
-            <li>{{test.title}} | <small><a href="{% url 'ready_to_test' test.id %}">Try It</a></small></li>
-            {% endfor %}
-        </ol>
+    <div class="container mt-5">
+        <h3>So‘nggi Testlar</h3>
+        {% if tests %}
+            <div class="row">
+                {% for test in tests %}
+                    <div class="col-md-4 mb-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ test.title }}</h5>
+                                <p class="card-text">Muallif: {{ test.author.username }}</p>
+                                <a href="{% url 'ready_to_test' test.id %}" class="btn btn-primary">Sinab Ko‘rish</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p class="text-muted">Hozircha testlar mavjud emas.</p>
+        {% endif %}
     </div>
 {% endblock content %}

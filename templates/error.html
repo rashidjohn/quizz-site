@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block title %}Test Ilovasi | Xato{% endblock title %}
+
+{% block content %}
+    <div class="container mt-5">
+        <div class="alert alert-danger" role="alert">
+            <h4 class="alert-heading">Xato!</h4>
+            <p>{{ message }}</p>
+            <hr>
+            <a href="{% url 'index' %}" class="btn btn-primary">Bosh Sahifaga Qaytish</a>
+        </div>
+    </div>
+{% endblock content %}
